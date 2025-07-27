@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 type Config struct {
@@ -21,6 +22,15 @@ type Application struct {
 
 func (app *Application) Mount() http.Handler {
 	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+
+	r.Route("/v1", func(router chi.Router) {
+		router.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+			w.Write([]byte("Welcome!\n"))
+		})
+	})
+
 	return r
 }
 
