@@ -7,10 +7,12 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/nullcarter/nossle/internal/store"
 )
 
 type Config struct {
 	Addr         string
+	DbPath       string
 	WriteTimeout time.Duration
 	ReadTimeout  time.Duration
 	IdleTimeout  time.Duration
@@ -18,6 +20,7 @@ type Config struct {
 
 type Application struct {
 	Config Config
+	Store  store.Store
 }
 
 func (app *Application) Mount() http.Handler {
