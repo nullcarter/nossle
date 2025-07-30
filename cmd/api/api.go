@@ -18,12 +18,12 @@ type Config struct {
 	IdleTimeout  time.Duration
 }
 
-type Application struct {
+type Nossle struct {
 	Config Config
 	Store  store.Store
 }
 
-func (app *Application) Mount() http.Handler {
+func (app *Nossle) Mount() http.Handler {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
@@ -37,7 +37,7 @@ func (app *Application) Mount() http.Handler {
 	return r
 }
 
-func (app *Application) Run(mux http.Handler) error {
+func (app *Nossle) Run(mux http.Handler) error {
 	srv := &http.Server{
 		Addr:         app.Config.Addr,
 		Handler:      mux,

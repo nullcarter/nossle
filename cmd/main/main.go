@@ -24,12 +24,12 @@ func main() {
 
 	appStore := store.NewStore(db)
 
-	app := &api.Application{
+	nossle := &api.Nossle{
 		Config: cfg,
 		Store:  appStore,
 	}
 
-	mux := app.Mount()
+	mux := nossle.Mount()
 
-	log.Fatal(app.Run(mux))
+	log.Fatal(nossle.Run(mux))
 }
