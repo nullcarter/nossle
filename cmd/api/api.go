@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/nullcarter/nossle/cmd/handler"
 	"github.com/nullcarter/nossle/internal/store"
 )
 
@@ -20,7 +21,7 @@ type Config struct {
 
 type Nossle struct {
 	Config Config
-	Store  store.Store
+	Store  *store.Queries
 }
 
 func (app *Nossle) Mount() http.Handler {
@@ -28,10 +29,18 @@ func (app *Nossle) Mount() http.Handler {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	r.Route("/v1", func(router chi.Router) {
-		router.Get("/health", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("Welcome!\n"))
+	r.Route("/v1", func(r chi.Router) {
+
+		userHandler := handler.UserHandler{}
+
+		r.Route("/users", func(route chi.Router) {
+			route.Get("/", userHandler.List)
+			route.Post("/", userHandler.Create)
+			route.Get("/{id}", userHandler.Get)
+			route.Put("/{id}", userHandler.Update)
+			route.Delete("/{id}", userHandler.Delete)
 		})
+
 	})
 
 	return r

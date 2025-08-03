@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"log"
+	"time"
 
 	_ "modernc.org/sqlite"
 
@@ -13,7 +15,7 @@ import (
 func main() {
 	cfg := api.Config{
 		Addr:   ":8080",
-		DbPath: "sqlite",
+		DbPath: "./sqlite",
 	}
 
 	db, err := sql.Open("sqlite", cfg.DbPath)
@@ -22,7 +24,16 @@ func main() {
 		log.Fatal(err)
 	}
 
-	appStore := store.NewStore(db)
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	err = db.PingContext(ctx)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	appStore := store.New(db)
 
 	nossle := &api.Nossle{
 		Config: cfg,
