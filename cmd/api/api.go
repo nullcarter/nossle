@@ -12,11 +12,14 @@ import (
 )
 
 type Config struct {
-	Addr         string
-	DbPath       string
-	WriteTimeout time.Duration
-	ReadTimeout  time.Duration
-	IdleTimeout  time.Duration
+	Addr               string
+	DbPath             string
+	MigrationPath      string
+	DatabaseUrl        string
+	DatabaseDriverName string
+	WriteTimeout       time.Duration
+	ReadTimeout        time.Duration
+	IdleTimeout        time.Duration
 }
 
 type Nossle struct {

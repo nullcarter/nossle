@@ -10,7 +10,7 @@ import (
 
 type Message struct {
 	ID        int64
-	RoomID    int64
+	RoomID    sql.NullInt64
 	UserID    sql.NullInt64
 	Content   string
 	SentAt    sql.NullTime
@@ -30,13 +30,23 @@ type RoomMember struct {
 	RoomID   sql.NullInt64
 	UserID   sql.NullInt64
 	JoinedAt sql.NullTime
-	Role     sql.NullString
+	RoleID   sql.NullInt64
+}
+
+type RoomRoleAccess struct {
+	RoomID sql.NullInt64
+	RoleID sql.NullInt64
 }
 
 type User struct {
-	ID          int64
-	Username    string
-	DisplayName sql.NullString
-	CreatedAt   sql.NullTime
-	PwHash      sql.NullString
+	ID        int64
+	Username  string
+	PwHash    sql.NullString
+	CreatedAt sql.NullTime
+	RoleID    sql.NullInt64
+}
+
+type UserRole struct {
+	ID   int64
+	Name sql.NullString
 }

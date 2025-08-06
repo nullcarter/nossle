@@ -1,2 +1,0 @@
-ALTER TABLE users
-ADD COLUMN pw_hash TEXT

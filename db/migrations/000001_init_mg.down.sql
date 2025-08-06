@@ -1,10 +1,11 @@
--- Enable foreign keys
-PRAGMA foreign_keys = ON;
+drop table if exists user_roles;
 
-DROP TABLE IF EXISTS messages;
+drop table if exists users;
 
-DROP TABLE IF EXISTS room_members;
+drop table if exists rooms;
 
-DROP TABLE IF EXISTS chat_rooms;
+drop table if exists room_role_access;
 
-DROP TABLE IF EXISTS users;
+drop table if exists room_members;
+
+drop table if exists messages;
