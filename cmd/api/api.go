@@ -8,7 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/nullcarter/nossle/cmd/handler"
-	"github.com/nullcarter/nossle/internal/store"
+	"github.com/nullcarter/nossle/cmd/services.go"
 )
 
 type Config struct {
@@ -23,8 +23,8 @@ type Config struct {
 }
 
 type Nossle struct {
-	Config Config
-	Store  *store.Queries
+	Config   Config
+	Services services.Services
 }
 
 func (app *Nossle) Mount() http.Handler {
@@ -34,8 +34,7 @@ func (app *Nossle) Mount() http.Handler {
 
 	r.Route("/v1", func(r chi.Router) {
 
-		userHandler := handler.UserHandler{}
-
+		userHandler := handler.UserHandler{Services: app.Services}
 		r.Route("/users", func(route chi.Router) {
 			route.Get("/", userHandler.List)
 			route.Post("/", userHandler.Create)

@@ -1,11 +1,19 @@
 package handler
 
-import "net/http"
+import (
+	"net/http"
 
-type UserHandler struct{}
+	"github.com/nullcarter/nossle/cmd/services.go"
+)
 
-func (b UserHandler) List(w http.ResponseWriter, r *http.Request)   {}
-func (b UserHandler) Get(w http.ResponseWriter, r *http.Request)    {}
-func (b UserHandler) Create(w http.ResponseWriter, r *http.Request) {}
-func (b UserHandler) Update(w http.ResponseWriter, r *http.Request) {}
-func (b UserHandler) Delete(w http.ResponseWriter, r *http.Request) {}
+type UserHandler struct {
+	Services services.Services
+}
+
+func (uh UserHandler) List(w http.ResponseWriter, r *http.Request) {
+
+}
+func (uh UserHandler) Get(w http.ResponseWriter, r *http.Request)    {}
+func (uh UserHandler) Create(w http.ResponseWriter, r *http.Request) {}
+func (uh UserHandler) Update(w http.ResponseWriter, r *http.Request) {}
+func (uh UserHandler) Delete(w http.ResponseWriter, r *http.Request) {}

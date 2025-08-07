@@ -11,6 +11,7 @@ import (
 
 	// Application-specific packages
 	"github.com/nullcarter/nossle/cmd/api"
+	"github.com/nullcarter/nossle/cmd/services.go"
 	"github.com/nullcarter/nossle/internal/store"
 
 	// Migration packages
@@ -64,9 +65,12 @@ func main() {
 	// Initialize application store (data layer)
 	appStore := store.New(db)
 
+	// Initialize application services
+	services := services.NewService(appStore)
+
 	nossle := &api.Nossle{
-		Config: cfg,
-		Store:  appStore,
+		Config:   cfg,
+		Services: services,
 	}
 
 	// Mount routes and middleware
