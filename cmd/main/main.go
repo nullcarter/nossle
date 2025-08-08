@@ -11,7 +11,7 @@ import (
 
 	// Application-specific packages
 	"github.com/nullcarter/nossle/cmd/api"
-	"github.com/nullcarter/nossle/cmd/services.go"
+	"github.com/nullcarter/nossle/cmd/services"
 	"github.com/nullcarter/nossle/internal/store"
 
 	// Migration packages

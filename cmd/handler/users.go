@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/nullcarter/nossle/cmd/services.go"
+	"github.com/nullcarter/nossle/cmd/services"
 )
 
 type UserHandler struct {

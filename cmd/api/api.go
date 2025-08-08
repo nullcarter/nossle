@@ -8,7 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/nullcarter/nossle/cmd/handler"
-	"github.com/nullcarter/nossle/cmd/services.go"
+	"github.com/nullcarter/nossle/cmd/services"
 )
 
 type Config struct {
