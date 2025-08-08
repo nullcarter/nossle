@@ -7,9 +7,15 @@ import (
 )
 
 type Users struct {
-	store *store.Queries
+	Store *store.Queries
 }
 
-func (u Users) GetUsers(ctx context.Context) ([]store.User, error) {
-	return nil, nil
+func (u Users) GetUsers(ctx context.Context) ([]store.GetUsersRow, error) {
+	users, err := u.Store.GetUsers(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
 }

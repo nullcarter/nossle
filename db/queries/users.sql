@@ -6,6 +6,6 @@ values
 
 -- name: GetUsers :many
 select
-    *
+    id, username
 from
     users
