@@ -19,3 +19,13 @@ func (u Users) GetUsers(ctx context.Context) ([]store.GetUsersRow, error) {
 
 	return users, nil
 }
+
+func (u Users) CreateUser(userParams store.CreateUserParams, ctx context.Context) error {
+	err := u.Store.CreateUser(ctx, userParams)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

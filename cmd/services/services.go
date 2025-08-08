@@ -10,6 +10,7 @@ type Services struct {
 	Response
 	Users interface {
 		GetUsers(context.Context) ([]store.GetUsersRow, error)
+		CreateUser(store.CreateUserParams, context.Context) error
 	}
 }
 
