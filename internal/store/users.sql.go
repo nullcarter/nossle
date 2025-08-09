@@ -27,6 +27,29 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
 	return err
 }
 
+const getUser = `-- name: GetUser :one
+select id, username, created_at, role_id from users where id = ?
+`
+
+type GetUserRow struct {
+	ID        int64
+	Username  string
+	CreatedAt sql.NullTime
+	RoleID    sql.NullInt64
+}
+
+func (q *Queries) GetUser(ctx context.Context, id int64) (GetUserRow, error) {
+	row := q.db.QueryRowContext(ctx, getUser, id)
+	var i GetUserRow
+	err := row.Scan(
+		&i.ID,
+		&i.Username,
+		&i.CreatedAt,
+		&i.RoleID,
+	)
+	return i, err
+}
+
 const getUsers = `-- name: GetUsers :many
 select
     id, username

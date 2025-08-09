@@ -8,4 +8,7 @@ values
 select
     id, username
 from
-    users
+    users;
+
+-- name: GetUser :one
+select id, username, created_at, role_id from users where id = ?;

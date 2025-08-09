@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/nullcarter/nossle/cmd/services"
@@ -23,11 +24,26 @@ func (uh UserHandler) List(w http.ResponseWriter, r *http.Request) {
 	}
 
 	uh.Services.Response.Success(w, 200, users)
-
 }
+
 func (uh UserHandler) Get(w http.ResponseWriter, r *http.Request) {
+	userIdStr := r.PathValue("id")
+	userId, err := strconv.ParseInt(userIdStr, 10, 64)
 
+	if err != nil {
+		uh.Services.Response.Error(w, 400, "internal_error", "Failed to get user.")
+		return
+	}
+
+	user, err := uh.Services.Users.GetUser(userId, r.Context())
+
+	if err != nil {
+		uh.Services.Response.Error(w, 400, "internal_error", "Failed to get user.")
+		return
+	}
+	uh.Services.Response.Success(w, 200, user)
 }
+
 func (uh UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var user struct {
 		Username string `json:"username" validate:"required"`
@@ -64,5 +80,7 @@ func (uh UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 	uh.Services.Success(w, 200, nil)
 }
+
 func (uh UserHandler) Update(w http.ResponseWriter, r *http.Request) {}
+
 func (uh UserHandler) Delete(w http.ResponseWriter, r *http.Request) {}
