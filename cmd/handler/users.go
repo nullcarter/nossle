@@ -2,11 +2,9 @@ package handler
 
 import (
 	"database/sql"
-	"encoding/json"
 	"net/http"
 	"strconv"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/nullcarter/nossle/cmd/services"
 	"github.com/nullcarter/nossle/internal/store"
 )
@@ -19,7 +17,7 @@ func (uh UserHandler) List(w http.ResponseWriter, r *http.Request) {
 	users, err := uh.Services.Users.GetUsers(r.Context())
 
 	if err != nil {
-		uh.Services.Response.Error(w, 400, "internal_error","Failed to fetch users")
+		uh.Services.Response.Error(w, 400, "internal_error", "Failed to fetch users")
 		return
 	}
 
@@ -50,35 +48,24 @@ func (uh UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 		Password string `json:"password" validate:"required"`
 	}
 
-	decoder := json.NewDecoder(r.Body)
-
-	if err := decoder.Decode(&user); err != nil {
-		uh.Services.Error(w, 400, "internal_error", "Failed to create user.")
+	if err := uh.Services.Validation.RequestBody(r.Body, &user); err != nil {
+		uh.Services.Response.Error(w, 400, "internal_error", err.Error())
 		return
 	}
 
-	validate := validator.New()
-	if err := validate.Struct(user); err != nil {
-		validationError := err.(validator.ValidationErrors)
-		uh.Services.Response.Error(w, http.StatusBadRequest, "internal_error", validationError.Error())
-		return
-	}
-
-	defer r.Body.Close()
-
-	userParams := store.CreateUserParams {
+	userParams := store.CreateUserParams{
 		Username: user.Username,
-		PwHash: sql.NullString{String: user.Password, Valid: true},
+		PwHash:   sql.NullString{String: user.Password, Valid: true},
 	}
 
 	err := uh.Services.Users.CreateUser(userParams, r.Context())
 
 	if err != nil {
-		uh.Services.Error(w, 400, "internal_error", "Failed to create user.")
+		uh.Services.Response.Error(w, 400, "internal_error", "Failed to create user.")
 		return
 	}
 
-	uh.Services.Success(w, 200, nil)
+	uh.Services.Response.Success(w, 200, nil)
 }
 
 func (uh UserHandler) Update(w http.ResponseWriter, r *http.Request) {}

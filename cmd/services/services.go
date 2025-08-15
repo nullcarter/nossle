@@ -2,12 +2,20 @@ package services
 
 import (
 	"context"
+	"io"
+	"net/http"
 
 	"github.com/nullcarter/nossle/internal/store"
 )
 
 type Services struct {
-	Response
+	Response interface {
+		Success(http.ResponseWriter, int, any)
+		Error(http.ResponseWriter, int, string, string)
+	}
+	Validation interface {
+		RequestBody(io.ReadCloser, any) error
+	}
 	Users interface {
 		GetUsers(context.Context) ([]store.GetUsersRow, error)
 		CreateUser(store.CreateUserParams, context.Context) error
@@ -17,7 +25,8 @@ type Services struct {
 
 func NewService(store *store.Queries) Services {
 	return Services{
-		Response: Response{},
-		Users: Users{store},
+		Response:   Response{},
+		Validation: Validation{},
+		Users:      Users{store},
 	}
 }

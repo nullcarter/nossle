@@ -5,13 +5,12 @@ import (
 	"net/http"
 )
 
-type Response struct {}
-
+type Response struct{}
 
 type StandardResponse struct {
-	Success bool `json:"success"`
-	Data interface{} `json:"data,omitempty"`
-	Error *ErrorInfo `json:"error,omitempty"`
+	Success bool       `json:"success"`
+	Data    any        `json:"data,omitempty"`
+	Error   *ErrorInfo `json:"error,omitempty"`
 	// Meta *MetaInfo `json:"meta,omitempty"`
 }
 
@@ -26,7 +25,7 @@ type ErrorInfo struct {
 // 	PerPage int `json:"per_page,omitempty"`
 // }
 
-func JSON (w http.ResponseWriter, statusCode int, payload interface{}) {
+func JSON(w http.ResponseWriter, statusCode int, payload any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
 
@@ -35,10 +34,10 @@ func JSON (w http.ResponseWriter, statusCode int, payload interface{}) {
 	}
 }
 
-func (r Response) Success(w http.ResponseWriter, statusCode int, data interface{}) {
+func (r Response) Success(w http.ResponseWriter, statusCode int, data any) {
 	resp := StandardResponse{
 		Success: true,
-		Data: data,
+		Data:    data,
 		// Meta: meta
 	}
 
@@ -49,7 +48,7 @@ func (r Response) Error(w http.ResponseWriter, statusCode int, code string, mess
 	resp := StandardResponse{
 		Success: false,
 		Error: &ErrorInfo{
-			Code: code,
+			Code:    code,
 			Message: message,
 		},
 	}
