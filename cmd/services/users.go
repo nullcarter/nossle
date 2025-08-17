@@ -39,3 +39,13 @@ func (u Users) GetUser(userId int64, ctx context.Context) (store.GetUserRow, err
 
 	return user, nil
 }
+
+func (u Users) UpdateUser(userId int64, userUpdates store.UpdateUserParams, ctx context.Context) error {
+	err := u.Store.UpdateUser(ctx, userUpdates)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

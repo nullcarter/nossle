@@ -20,6 +20,7 @@ type Services struct {
 		GetUsers(context.Context) ([]store.GetUsersRow, error)
 		CreateUser(store.CreateUserParams, context.Context) error
 		GetUser(int64, context.Context) (store.GetUserRow, error)
+		UpdateUser(int64, store.UpdateUserParams, context.Context) error
 	}
 }
 

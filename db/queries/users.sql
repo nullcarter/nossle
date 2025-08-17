@@ -12,3 +12,6 @@ from
 
 -- name: GetUser :one
 select id, username, created_at, role_id from users where id = ?;
+
+-- name: UpdateUser :exec
+update users set username = ?, role_id = ? where id = ?

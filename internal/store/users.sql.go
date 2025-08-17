@@ -84,3 +84,18 @@ func (q *Queries) GetUsers(ctx context.Context) ([]GetUsersRow, error) {
 	}
 	return items, nil
 }
+
+const updateUser = `-- name: UpdateUser :exec
+update users set username = ?, role_id = ? where id = ?
+`
+
+type UpdateUserParams struct {
+	Username string
+	RoleID   sql.NullInt64
+	ID       int64
+}
+
+func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) error {
+	_, err := q.db.ExecContext(ctx, updateUser, arg.Username, arg.RoleID, arg.ID)
+	return err
+}
