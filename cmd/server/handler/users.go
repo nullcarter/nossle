@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/nullcarter/nossle/cmd/services"
+	"github.com/nullcarter/nossle/cmd/server/services"
 	"github.com/nullcarter/nossle/internal/store"
 )
 
@@ -84,7 +84,7 @@ func (uh UserHandler) Update(w http.ResponseWriter, r *http.Request) {
 	// Services
 	var user struct {
 		Username string `json:"username"`
-		RoleId string `json:"role_id"`
+		RoleId   string `json:"role_id"`
 	}
 
 	if err := uh.Services.Validation.RequestBody(r.Body, &user); err != nil {
@@ -93,7 +93,7 @@ func (uh UserHandler) Update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	userUpdate := store.UpdateUserParams{
-		ID: userId,
+		ID:       userId,
 		Username: user.Username,
 		// RoleID: user.RoleId,
 	}
