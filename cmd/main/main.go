@@ -1,7 +1,10 @@
 package main
 
-import "github.com/nullcarter/nossle/cmd/server"
+import (
+	"github.com/nullcarter/nossle/cmd/tui"
+)
 
 func main() {
-	server.Start()
+	// server.Start()
+	tui.Start()
 }
